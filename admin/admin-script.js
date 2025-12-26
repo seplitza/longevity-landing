@@ -146,6 +146,8 @@ async function loadContent() {
         if (content.expert) {
             document.getElementById('expertQuote').value = content.expert.quote || '';
             document.getElementById('expertName').value = content.expert.name || '';
+            document.getElementById('expertRole').value = content.expert.role || '';
+            document.getElementById('expertBio').value = content.expert.bio || '';
             
             if (content.expert.image) {
                 const expertImageUrl = document.getElementById('expertImageUrl');
@@ -268,6 +270,8 @@ document.getElementById('expertForm')?.addEventListener('submit', async (e) => {
     e.preventDefault();
     
     const data = {
+        role: document.getElementById('expertRole').value,
+        bio: document.getElementById('expertBio').value,
         quote: document.getElementById('expertQuote').value,
         name: document.getElementById('expertName').value,
         image: document.getElementById('expertImageUrl').value || '/uploads/expert/default.jpg'

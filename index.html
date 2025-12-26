@@ -73,14 +73,14 @@
                     if (heroSubtitle && content.hero.subtitle) heroSubtitle.textContent = content.hero.subtitle;
                 }
 
-                // Update expert image if available
+                // Update expert section image (separate from hero)
                 if (content.expert && content.expert.image) {
-                    const expertImg = document.querySelector('.expert-img');
-                    if (expertImg) {
+                    const expertMainPhoto = document.querySelector('.expert-main-photo');
+                    if (expertMainPhoto) {
                         const url = content.expert.image.startsWith('/uploads/')
                           ? content.expert.image
                           : content.expert.image;
-                        expertImg.src = url;
+                        expertMainPhoto.src = url;
                     }
                 }
             } catch (err) {
