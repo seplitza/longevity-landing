@@ -20,9 +20,9 @@ if (contactForm) {
         
         // Get form data
         const formData = new FormData(this);
-        const name = this.querySelector('input[type="text"]').value;
-        const email = this.querySelector('input[type="email"]').value;
-        const message = this.querySelector('textarea').value;
+        const name = formData.get('name');
+        const email = formData.get('email');
+        const message = formData.get('message');
         
         // Here you would typically send the data to a server
         console.log('Form submitted:', { name, email, message });

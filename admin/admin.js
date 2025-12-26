@@ -5,9 +5,10 @@ if (settingsForm) {
         e.preventDefault();
         
         // Get form data
-        const siteName = this.querySelector('input[type="text"]').value;
-        const email = this.querySelector('input[type="email"]').value;
-        const maintenanceMode = this.querySelector('input[type="checkbox"]').checked;
+        const formData = new FormData(this);
+        const siteName = formData.get('siteName');
+        const email = formData.get('notificationEmail');
+        const maintenanceMode = formData.get('maintenanceMode') !== null;
         
         // Here you would typically send the data to a server
         console.log('Settings updated:', { siteName, email, maintenanceMode });
