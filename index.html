@@ -1,0 +1,771 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
+    <meta name="description" content="Система Сеплица - естественное омоложение без операций и инъекций. Авторская программа от Алексея Пинаева. Подтянутое лицо и здоровое тело в любом возрасте.">
+    <title>Сеплица | Система Естественной Подтяжки Лица и Долголетия</title>
+    <link rel="stylesheet" href="styles.css?v=1766750305">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+</head>
+    <body>
+        <script>
+        // Critical inline JS to ensure functionality even if external script tag is trimmed
+        function scrollToForm() {
+            const contactSection = document.getElementById('contact');
+            if (contactSection) {
+                contactSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                setTimeout(() => {
+                    const nameInput = document.getElementById('name');
+                    if (nameInput) nameInput.focus();
+                }, 600);
+            }
+        }
+
+        function toggleMobileMenu() {
+            const navMenu = document.querySelector('.nav-menu');
+            const toggle = document.querySelector('.mobile-menu-toggle');
+            if (navMenu && toggle) {
+                navMenu.classList.toggle('mobile-active');
+                toggle.classList.toggle('active');
+            }
+        }
+
+        async function loadContentFromAPI() {
+            try {
+                const response = await fetch('http://37.252.20.170:3000/api/content?t=' + Date.now(), {
+                    cache: 'no-store'
+                });
+                if (!response.ok) return;
+                const content = await response.json();
+                console.log('Loaded content:', content);
+
+                //                 // Always use uploaded hero image for the visible card portrait
+                //                 if (content.hero && content.hero.image) {
+                //                     // Cache-bust to avoid stale image
+                //                     const fullHeroUrl = content.hero.image + '?t=' + Date.now();
+                //                     const heroCardImg = document.querySelector('.hero .expert-img');
+                //                     if (heroCardImg) {
+                //                         heroCardImg.onload = () => console.log('Hero card image loaded:', fullHeroUrl);
+                //                         heroCardImg.onerror = (e) => console.warn("Hero card image failed:", fullHeroUrl, e);
+                //                         heroCardImg.src = fullHeroUrl;
+                //                         console.log('Hero card image updated:', fullHeroUrl);
+                //                     } else {
+                //                         console.warn('Hero card image element not found');
+                //                     }
+                //                 }
+
+                // Update hero texts (if present)
+                if (content.hero) {
+                    const heroLabel = document.querySelector('.hero-label');
+                    const heroTitle = document.querySelector('.hero-title');
+                    const heroSubtitle = document.querySelector('.hero-subtitle');
+                    if (heroLabel && content.hero.label) heroLabel.textContent = content.hero.label;
+                    if (heroTitle && content.hero.title) {
+                        const accent = content.hero.titleAccent || '';
+                        heroTitle.innerHTML = content.hero.title + (accent ? '<br><span class="gradient-text">' + accent + '</span>' : '');
+                    }
+                    if (heroSubtitle && content.hero.subtitle) heroSubtitle.textContent = content.hero.subtitle;
+                }
+
+                // Update expert image if available
+                if (content.expert && content.expert.image) {
+                    const expertImg = document.querySelector('.expert-img');
+                    if (expertImg) {
+                        const url = content.expert.image.startsWith('/uploads/')
+                          ? content.expert.image
+                          : content.expert.image;
+                        expertImg.src = url;
+                    }
+                }
+            } catch (err) {
+                // Fail silently to not block rendering
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            loadContentFromAPI();
+        });
+        </script>
+    <!-- Верхняя панель с контактами -->
+    <div class="top-bar">
+        <div class="container">
+            <div class="top-bar-content">
+                <div class="contact-info">
+                    <a href="tel:+79991234567" class="phone-link">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path>
+                        </svg>
+                        +7 (999) 123-45-67
+                    </a>
+                    <span class="work-time">Ежедневно с 9:00 до 21:00</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Шапка с навигацией -->
+    <header class="header">
+        <div class="container">
+            <nav class="nav">
+                <div class="logo">
+                    <span class="logo-text">СЕПЛИЦА</span>
+                    <span class="logo-subtitle">система естественной подтяжки лица</span>
+                </div>
+                <ul class="nav-menu">
+                    <li><a href="#about">О системе</a></li>
+                    <li><a href="#benefits">4 ступени</a></li>
+                    <li><a href="#program">Методика</a></li>
+                    <li><a href="#results">Результаты</a></li>
+                    <li><a href="#reviews">Отзывы</a></li>
+                </ul>
+                <button class="cta-button header-cta" onclick="scrollToForm()">Записаться</button>
+                <button class="mobile-menu-toggle" onclick="toggleMobileMenu()">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </button>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Главный экран (Hero) -->
+    <section class="hero">
+        <div class="container">
+            <div class="hero-content">
+                <div class="hero-text">
+                    <p class="hero-label">Система естественного омоложения</p>
+                    <h1 class="hero-title">
+                        Долголетие —<br>
+                        <span class="gradient-text">Это Профилактика Старения</span>
+                    </h1>
+                    <p class="hero-subtitle">
+                        Я Алексей Пинаев, создатель системы Сеплица. Наша цель — жить больше 100 лет,
+                        используя исключительно естественные методы омоложения. Без операций, инъекций и агрессивных процедур.
+                    </p>
+                    <div class="hero-features">
+                        <div class="hero-feature">
+                            <span class="check-icon">✓</span>
+                            <span>Только естественные методы</span>
+                        </div>
+                        <div class="hero-feature">
+                            <span class="check-icon">✓</span>
+                            <span>Доказанная эффективность</span>
+                        </div>
+                        <div class="hero-feature">
+                            <span class="check-icon">✓</span>
+                            <span>20-40 минут в день</span>
+                        </div>
+                    </div>
+                    <div class="hero-cta">
+                        <button class="cta-button large" onclick="scrollToForm()">
+                            Получить консультацию
+                        </button>
+                        <p class="cta-note">Первая консультация бесплатно</p>
+                    </div>
+                </div>
+                <div class="hero-image">
+                    <div class="expert-photo">
+                        <img src="/uploads/hero/1766750121294-791751151.jpg" alt="Алексей Пинаев" class="expert-img">
+                        <div class="expert-badge">
+                            <p class="badge-label">10,000+</p>
+                            <p class="badge-text">последователей системы</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="scroll-indicator">
+            <span>Прокрутите вниз</span>
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <polyline points="6 9 12 15 18 9"></polyline>
+            </svg>
+        </div>
+    </section>
+
+    <!-- О программе -->
+    <section id="about" class="about-section">
+        <div class="container">
+            <h2 class="section-title">Что Такое Система Сеплица?</h2>
+            <p class="section-subtitle">4 ступени погружения для достижения естественного омоложения</p>
+            
+            <div class="about-grid">
+                <div class="about-card">
+                    <div class="about-icon">🏃</div>
+                    <h3>Забота о теле</h3>
+                    <p>Зарядка долголетия за 25 минут и тренировки для увеличения потенциала жизни. Разглаживаем «миофасциальный костюмчик»</p>
+                </div>
+                <div class="about-card">
+                    <div class="about-icon">💆</div>
+                    <h3>Забота о лице и шее</h3>
+                    <p>Практики самомассажа, работа с осанкой и лимфодренажные упражнения. Эстетическое омоложение без инъекций</p>
+                </div>
+                <div class="about-card">
+                    <div class="about-icon">🧬</div>
+                    <h3>Клеточное здоровье</h3>
+                    <p>Биохакинг: помощь клеткам в жизнедеятельности, укрепление защитных свойств, восполнение критически важных запасов</p>
+                </div>
+                <div class="about-card">
+                    <div class="about-icon">🦠</div>
+                    <h3>Забота о микробиоме</h3>
+                    <p>Работа с микрофлорой: разнообразное питание, пребиотики и ферментированные продукты для здоровья организма</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Проблемы, которые решаем -->
+    <section class="problems-section">
+        <div class="container">
+            <h2 class="section-title">Сеплица Стирает Возрастные Признаки</h2>
+            <p class="section-subtitle">От 20 до 40 минут в день, чтобы выглядеть моложе</p>
+            
+            <div class="problems-grid">
+                <div class="problem-card">
+                    <span class="problem-number">01</span>
+                    <h3>Отеки и птоз лица</h3>
+                    <p>Отек лица, обвисшее верхнее веко, мешки под глазами, брыльки — все это поддается коррекции с помощью лимфодренажа и самомассажа</p>
+                </div>
+                <div class="problem-card">
+                    <span class="problem-number">02</span>
+                    <h3>Морщины и складки</h3>
+                    <p>Носогубные складки, гусиные лапки, морщины на лбу, кисетные морщины вокруг рта — система работает со всеми видами морщин</p>
+                </div>
+                <div class="problem-card">
+                    <span class="problem-number">03</span>
+                    <h3>Проблемы с осанкой</h3>
+                    <p>Склоненная голова, «шея программиста», холка, проблема с С7 — упражнения на осанку с акцентом на шею решают эти проблемы</p>
+                </div>
+                <div class="problem-card">
+                    <span class="problem-number">04</span>
+                    <h3>Пигментация и тонус</h3>
+                    <p>Пигментные пятна, потеря тонуса кожи — клеточный биохакинг помогает восстановить здоровье кожи изнутри</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- О Дмитрии -->
+    <section class="expert-section">
+        <div class="container">
+            <div class="expert-content">
+                <div class="expert-image-block">
+                    <img src="https://images.unsplash.com/photo-1556157382-97eda2d62296?w=600&h=700&fit=crop" alt="Дмитрий Соколов" class="expert-main-photo">
+                    <div class="expert-quote">
+                        <p>"Каждая женщина достойна чувствовать себя красивой и желанной в любом возрасте"</p>
+                        <span>— Дмитрий Соколов</span>
+                    </div>
+                </div>
+                <div class="expert-bio">
+                    <h2 class="section-title">Обо Мне</h2>
+                    <p class="bio-text">
+                        Меня зовут <strong>Дмитрий Соколов</strong>, и последние 15 лет я посвятил изучению 
+                        процессов старения и методов естественного омоложения.
+                    </p>
+                    <p class="bio-text">
+                        Мой подход основан на глубоком понимании женской физиологии, психологии 
+                        и индивидуальных потребностях каждой моей клиентки.
+                    </p>
+                    <div class="credentials">
+                        <div class="credential-item">
+                            <span class="credential-icon">🎓</span>
+                            <div>
+                                <h4>Образование</h4>
+                                <p>МГУ, факультет биологии<br>Международный институт anti-age медицины</p>
+                            </div>
+                        </div>
+                        <div class="credential-item">
+                            <span class="credential-icon">⭐</span>
+                            <div>
+                                <h4>Опыт</h4>
+                                <p>15 лет практики<br>10,000+ довольных клиенток</p>
+                            </div>
+                        </div>
+                        <div class="credential-item">
+                            <span class="credential-icon">📚</span>
+                            <div>
+                                <h4>Достижения</h4>
+                                <p>Автор книги "Вечная молодость"<br>Спикер международных конференций</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Преимущества -->
+    <section id="benefits" class="benefits-section">
+        <div class="container">
+            <h2 class="section-title">4 Ступени Системы Сеплица</h2>
+            <p class="section-subtitle">Холистический подход к продлению молодости и долголетию</p>
+            
+            <div class="benefits-container">
+                <div class="benefit-item">
+                    <div class="benefit-icon">
+                        <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M22 12h-4l-3 9L9 3l-3 9H2"></path>
+                        </svg>
+                    </div>
+                    <h3>1. Зарядка долголетия</h3>
+                    <p>33 упражнения за 25 минут разбудят ток лимфы, повысят подвижность и запустят регенерацию всего тела. Ежедневно в прямом эфире в 7:00 МСК</p>
+                </div>
+                
+                <div class="benefit-item">
+                    <div class="benefit-icon">
+                        <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M12 2a10 10 0 1 0 10 10A10 10 0 0 0 12 2zm0 18a8 8 0 1 1 8-8 8 8 0 0 1-8 8z"></path>
+                            <circle cx="12" cy="12" r="3"></circle>
+                        </svg>
+                    </div>
+                    <h3>2. Самомассаж лица</h3>
+                    <p>Практики самомассажа, работа с осанкой и лимфодренажные упражнения. Профилактика и избавление от морщин и отёков без инъекций</p>
+                </div>
+                
+                <div class="benefit-item">
+                    <div class="benefit-icon">
+                        <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M12 2L2 7l10 5 10-5-10-5z"></path>
+                            <path d="M2 17l10 5 10-5M2 12l10 5 10-5"></path>
+                        </svg>
+                    </div>
+                    <h3>3. Клеточный биохакинг</h3>
+                    <p>Очищение межклеточного вещества, аутофагия, укрепление мембран, ремонт ДНК. Приём NMN, Омега-3, кверцетина, ресвератрола</p>
+                </div>
+                
+                <div class="benefit-item">
+                    <div class="benefit-icon">
+                        <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <circle cx="12" cy="12" r="10"></circle>
+                            <circle cx="12" cy="12" r="6"></circle>
+                            <circle cx="12" cy="12" r="2"></circle>
+                        </svg>
+                    </div>
+                    <h3>4. Забота о микробиоме</h3>
+                    <p>Разнообразное питание, пребиотики и ферментированные продукты. Не убивать микрофлору консервантами и антибиотиками</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Программа -->
+    <section id="program" class="program-section">
+        <div class="container">
+            <h2 class="section-title">Как Проходит Программа</h2>
+            <p class="section-subtitle">Пошаговый путь к вашему омоложению</p>
+            
+            <div class="timeline">
+                <div class="timeline-item">
+                    <div class="timeline-marker">1</div>
+                    <div class="timeline-content">
+                        <h3>Диагностика и анализ</h3>
+                        <p>Комплексное обследование организма, определение биологического возраста и выявление проблемных зон</p>
+                        <span class="timeline-duration">1-2 дня</span>
+                    </div>
+                </div>
+                
+                <div class="timeline-item">
+                    <div class="timeline-marker">2</div>
+                    <div class="timeline-content">
+                        <h3>Персональная программа</h3>
+                        <p>Разработка индивидуального плана омоложения с учетом ваших особенностей и целей</p>
+                        <span class="timeline-duration">3-5 дней</span>
+                    </div>
+                </div>
+                
+                <div class="timeline-item">
+                    <div class="timeline-marker">3</div>
+                    <div class="timeline-content">
+                        <h3>Запуск программы</h3>
+                        <p>Начало активной фазы: питание, физическая активность, дыхательные практики, детокс</p>
+                        <span class="timeline-duration">21 день</span>
+                    </div>
+                </div>
+                
+                <div class="timeline-item">
+                    <div class="timeline-marker">4</div>
+                    <div class="timeline-content">
+                        <h3>Закрепление результата</h3>
+                        <p>Стабилизация достигнутых результатов и формирование новых здоровых привычек</p>
+                        <span class="timeline-duration">2-3 месяца</span>
+                    </div>
+                </div>
+                
+                <div class="timeline-item">
+                    <div class="timeline-marker">5</div>
+                    <div class="timeline-content">
+                        <h3>Долгосрочное сопровождение</h3>
+                        <p>Регулярный контроль показателей и корректировка программы для поддержания эффекта</p>
+                        <span class="timeline-duration">Постоянно</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Результаты -->
+    <section id="results" class="results-section">
+        <div class="container">
+            <h2 class="section-title">Результаты Наших Клиентов</h2>
+            
+            <div class="results-grid">
+                <div class="result-card">
+                    <div class="result-stat">-7 лет</div>
+                    <div class="result-label">Биологический возраст</div>
+                    <p>В среднем наши клиенты молодеют на 5-10 лет по биологическим показателям</p>
+                </div>
+                
+                <div class="result-card">
+                    <div class="result-stat">+45%</div>
+                    <div class="result-label">Уровень энергии</div>
+                    <p>Значительное повышение жизненного тонуса и работоспособности</p>
+                </div>
+                
+                <div class="result-card">
+                    <div class="result-stat">92%</div>
+                    <div class="result-label">Улучшение кожи</div>
+                    <p>Заметное улучшение состояния кожи, сокращение морщин и пигментации</p>
+                </div>
+                
+                <div class="result-card">
+                    <div class="result-stat">-12 кг</div>
+                    <div class="result-label">Средняя потеря веса</div>
+                    <p>Нормализация веса без жестких диет и голодания</p>
+                </div>
+            </div>
+
+            <div class="cta-banner">
+                <h3>Готовы Вернуть Молодость и Уверенность?</h3>
+                <p>Запишитесь на личную консультацию со мной, и мы составим вашу индивидуальную программу</p>
+                <button class="cta-button large white" onclick="scrollToForm()">
+                    Записаться на консультацию
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Отзывы -->
+    <section id="reviews" class="reviews-section">
+        <div class="container">
+            <h2 class="section-title">Отзывы Наших Клиентов</h2>
+            
+            <div class="reviews-grid">
+                <div class="review-card">
+                    <div class="review-rating">★★★★★</div>
+                    <p class="review-text">
+                        "Приложение очень классное! С первых дней оно мне очень понравилось, я быстро привыкла и не только по утрам, но и когда уставала по вечерам, с огромным удовольствием хотела делать себе массаж! После полного прохождения всех видов массажа появляется ощущение свежести, омоложения и прилива сил. Мне нравится мое хорошее самочувствие и отличное настроение после занятий!"
+                    </p>
+                    <div class="review-author">
+                        <div class="author-avatar">ЕС</div>
+                        <div class="author-info">
+                            <div class="author-name">Елена С.</div>
+                            <div class="author-age">Пенсионер</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="review-card">
+                    <div class="review-rating">★★★★★</div>
+                    <p class="review-text">
+                        "Отличное приложение, занимаюсь с удовольствием, вижу результаты, а особенно заметно изменилось здоровье и самочувствие! Делаю все упражнения каждый день. Огромное спасибо за все разработки! Алексей и его разработчики меняют приложение по моей просьбе!"
+                    </p>
+                    <div class="review-author">
+                        <div class="author-avatar">ЕР</div>
+                        <div class="author-info">
+                            <div class="author-name">Елена Р.</div>
+                            <div class="author-age">Копирайтер</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="review-card">
+                    <div class="review-rating">★★★★★</div>
+                    <p class="review-text">
+                        "Через 2 недели я выгляжу как с 48 до 43, мне 56! 🤣🙏❤️👍 Если бы я увидела тебя, Алексей, я бы затискала тебя до 'смерти'! Еще много работы предстоит сделать, но я в правильном месте! Спасибо, спасибо, спасибо! Я так счастлива! 🥰❤️"
+                    </p>
+                    <div class="review-author">
+                        <div class="author-avatar">НС</div>
+                        <div class="author-info">
+                            <div class="author-name">Наталья С.</div>
+                            <div class="author-age">56 лет, Домохозяйка</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="review-card">
+                    <div class="review-rating">★★★★★</div>
+                    <p class="review-text">
+                        "Что хочу сказать: много всего 😁 Я стала чувствовать свои мышцы и понимать, где находятся зажимы. Я просто почувствовала, что делает ботокс и что его можно легко заменить руками. Просто потрясающе. Вижу результат, главное меньше отеков по утрам. Жду не дождусь, когда появятся продвинутые курсы. ❤️"
+                    </p>
+                    <div class="review-author">
+                        <div class="author-avatar">СГ</div>
+                        <div class="author-info">
+                            <div class="author-name">Серафима Г.</div>
+                            <div class="author-age">Модель</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="review-card">
+                    <div class="review-rating">★★★★★</div>
+                    <p class="review-text">
+                        "Система работает! Я занимаюсь уже 3 месяца и вижу конкретные изменения. Лицо стало более подтянутым, отеки ушли, кожа стала более упругой. Все упражнения доступно и удобно объяснены. Спасибо за такую программу!"
+                    </p>
+                    <div class="review-author">
+                        <div class="author-avatar">МК</div>
+                        <div class="author-info">
+                            <div class="author-name">Марина К.</div>
+                            <div class="author-age">49 лет</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="review-card">
+                    <div class="review-rating">★★★★★</div>
+                    <p class="review-text">
+                        "Не могу поверить, что это бесплатно! Качество курсов на высшем уровне. Зарядка долголетия стала моим утренним ритуалом. Чувствую себя бодрой и энергичной весь день. Рекомендую всем!"
+                    </p>
+                    <div class="review-author">
+                        <div class="author-avatar">ОВ</div>
+                        <div class="author-info">
+                            <div class="author-name">Ольга В.</div>
+                            <div class="author-age">52 года</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+                <div class="review-card">
+                    <div class="review-rating">★★★★★</div>
+                    <p class="review-text">
+                        "Система работает! Я занимаюсь уже 3 месяца и вижу конкретные изменения. Лицо стало более подтянутым, отеки ушли, кожа стала более упругой. Все упражнения доступно и удобно объяснены. Спасибо за такую программу!"
+                    </p>
+                    <div class="review-author">
+                        <div class="author-avatar">МК</div>
+                        <div class="author-info">
+                            <div class="author-name">Марина К.</div>
+                            <div class="author-age">49 лет</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="review-card">
+                    <div class="review-rating">★★★★★</div>
+                    <p class="review-text">
+                        "Не могу поверить, что это бесплатно! Качество курсов на высшем уровне. Зарядка долголетия стала моим утренним ритуалом. Чувствую себя бодрой и энергичной весь день. Рекомендую всем!"
+                    </p>
+                    <div class="review-author">
+                        <div class="author-avatar">ОВ</div>
+                        <div class="author-info">
+                            <div class="author-name">Ольга В.</div>
+                            <div class="author-age">52 года</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Форма заявки -->
+    <section id="contact" class="contact-section">
+        <div class="container">
+            <div class="contact-wrapper">
+                <div class="contact-info-block">
+                    <h2>Присоединяйтесь к Сообществу Сеплица</h2>
+                    <p class="contact-description">
+                        Оставьте заявку, и мы пришлем вам ссылки на бесплатное приложение, 
+                        доступ к сообществу и расписание ежедневных зарядок в прямом эфире.
+                    </p>
+                    
+                    <div class="contact-benefits">
+                        <div class="contact-benefit">
+                            <span class="benefit-check">✓</span>
+                            <span>Анализ вашей ситуации</span>
+                        </div>
+                        <div class="contact-benefit">
+                            <span class="benefit-check">✓</span>
+                            <span>Рекомендации специалиста</span>
+                        </div>
+                        <div class="contact-benefit">
+                            <span class="benefit-check">✓</span>
+                            <span>Расчет программы</span>
+                        </div>
+                        <div class="contact-benefit">
+                            <span class="benefit-check">✓</span>
+                            <span>Ответы на вопросы</span>
+                        </div>
+                    </div>
+
+                    <div class="contact-direct">
+                        <p class="contact-or">Или позвоните нам прямо сейчас:</p>
+                        <a href="tel:+79991234567" class="contact-phone">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path>
+                            </svg>
+                            +7 (999) 123-45-67
+                        </a>
+                    </div>
+                </div>
+
+                <div class="contact-form-block">
+                    <form id="contactForm" class="contact-form" onsubmit="handleSubmit(event)">
+                        <div class="form-group">
+                            <label for="name">Ваше имя *</label>
+                            <input type="text" id="name" name="name" required placeholder="Иван Петров">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="phone">Телефон *</label>
+                            <input type="tel" id="phone" name="phone" required placeholder="+7 (999) 123-45-67">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="email">Email</label>
+                            <input type="email" id="email" name="email" placeholder="ivan@example.com">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="age">Возраст</label>
+                            <select id="age" name="age">
+                                <option value="">Выберите диапазон</option>
+                                <option value="30-40">30-40 лет</option>
+                                <option value="40-50">40-50 лет</option>
+                                <option value="50-60">50-60 лет</option>
+                                <option value="60+">60+ лет</option>
+                            </select>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="comment">Комментарий</label>
+                            <textarea id="comment" name="comment" rows="3" placeholder="Расскажите о ваших целях и пожеланиях"></textarea>
+                        </div>
+                        
+                        <div class="form-consent">
+                            <label class="checkbox-label">
+                                <input type="checkbox" required>
+                                <span>Я согласен с <a href="#" target="_blank">политикой конфиденциальности</a></span>
+                            </label>
+                        </div>
+                        
+                        <button type="submit" class="cta-button large full-width">
+                            Получить консультацию
+                        </button>
+                        
+                        <p class="form-note">
+                            Мы перезвоним вам в течение 15 минут
+                        </p>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-column">
+                    <div class="footer-logo">
+                        <span class="logo-text">СЕПЛИЦА</span>
+                    </div>
+                    <p class="footer-description">
+                        Система естественной подтяжки лица и долголетия<br>
+                        Natural Facelift System by Aleksey Pinaev
+                    </p>
+                </div>
+                
+                <div class="footer-column">
+                    <h4>Навигация</h4>
+                    <ul class="footer-links">
+                        <li><a href="#about">О программе</a></li>
+                        <li><a href="#benefits">Преимущества</a></li>
+                        <li><a href="#program">Как это работает</a></li>
+                        <li><a href="#reviews">Отзывы</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-column">
+                    <h4>Контакты</h4>
+                    <ul class="footer-contacts">
+                        <li>
+                            <a href="tel:+79991234567">+7 (999) 123-45-67</a>
+                        </li>
+                        <li>
+                            <a href="mailto:info@longevity.ru">info@longevity.ru</a>
+                        </li>
+                        <li>Ежедневно с 9:00 до 21:00</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <p>&copy; 2025 Долголетие. Все права защищены.</p>
+                <p class="footer-disclaimer">
+                    Консультация специалиста обязательна. Имеются противопоказания.
+                </p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Кнопка "Позвонить" (фиксированная на мобильных) -->
+    <a href="tel:+79991234567" class="floating-call-button">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path>
+        </svg>
+        <span>Позвонить</span>
+    </a>
+
+    <!-- Модальное окно согласия на обработку данных -->
+    <div id="privacyModal" class="privacy-modal">
+        <div class="privacy-modal-content">
+            <span class="privacy-modal-close" onclick="closePrivacyModal()">&times;</span>
+            <h2>Согласие на обработку персональных данных</h2>
+            <div class="privacy-modal-body">
+                <p><strong>Настоящим я даю согласие</strong> на обработку моих персональных данных, указанных в форме обратной связи.</p>
+                
+                <h3>Цели обработки данных:</h3>
+                <ul>
+                    <li>Предоставление информации о системе Сеплица</li>
+                    <li>Отправка ссылок на мобильное приложение Natural Rejuvenation</li>
+                    <li>Информирование о расписании ежедневных зарядок</li>
+                    <li>Добавление в сообщество Сеплица</li>
+                    <li>Консультационная поддержка</li>
+                </ul>
+                
+                <h3>Какие данные обрабатываются:</h3>
+                <ul>
+                    <li>Имя и фамилия</li>
+                    <li>Номер телефона</li>
+                    <li>Адрес электронной почты (если указан)</li>
+                    <li>Возраст (если указан)</li>
+                    <li>Комментарий (если указан)</li>
+                </ul>
+                
+                <h3>Срок хранения данных:</h3>
+                <p>Персональные данные хранятся в течение 3 лет с момента последнего обращения или до момента отзыва согласия.</p>
+                
+                <h3>Ваши права:</h3>
+                <ul>
+                    <li>Право на доступ к своим персональным данным</li>
+                    <li>Право на исправление неточных данных</li>
+                    <li>Право на удаление данных</li>
+                    <li>Право на отзыв согласия в любое время</li>
+                </ul>
+                
+                <p class="privacy-note">Для отзыва согласия направьте запрос на email: <a href="mailto:info@seplitza.ru">info@seplitza.ru</a></p>
+                
+                <p class="privacy-note"><strong>Я подтверждаю</strong>, что ознакомлен(а) с <a href="https://seplitza.ru/policy" target="_blank">Политикой конфиденциальности</a> и даю согласие на обработку моих персональных данных на указанных выше условиях.</p>
+            </div>
+            <div class="privacy-modal-actions">
+                <button class="cta-button" onclick="acceptPrivacyAndSubmit()">Принимаю и отправить заявку</button>
+                <button class="cta-button secondary" onclick="closePrivacyModal()">Отмена</button>
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>

@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Админ-панель | Сеплица</title>
+    <link rel="stylesheet" href="admin-styles.css">
+</head>
+<body>
+    <div id="app">
+        <!-- Login Screen -->
+        <div id="loginScreen" class="login-screen">
+            <div class="login-box">
+                <h1>🌿 Сеплица</h1>
+                <h2>Админ-панель</h2>
+                <form id="loginForm">
+                    <div class="form-group">
+                        <label>Логин</label>
+                        <input type="text" id="username" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Пароль</label>
+                        <div style="position: relative;">
+                            <input type="password" id="password" required style="padding-right: 45px;">
+                            <button type="button" id="togglePassword" style="position: absolute; right: 10px; top: 50%; transform: translateY(-50%); background: none; border: none; cursor: pointer; font-size: 18px;">👁️</button>
+                        </div>
+                    </div>
+                    <button type="submit" class="btn-primary">Войти</button>
+                    <div id="loginError" class="error-message"></div>
+                </form>
+            </div>
+        </div>
+
+        <!-- Admin Dashboard -->
+        <div id="dashboard" class="dashboard" style="display: none;">
+            <!-- Header -->
+            <header class="admin-header">
+                <div class="header-left">
+                    <h1>🌿 Сеплица</h1>
+                    <span class="subtitle">Панель управления</span>
+                </div>
+                <div class="header-right">
+                    <span id="username Display"></span>
+                    <button onclick="logout()" class="btn-logout">Выйти</button>
+                </div>
+            </header>
+
+            <!-- Sidebar -->
+            <div class="admin-layout">
+                <aside class="sidebar">
+                    <nav>
+                        <a href="#" class="nav-item active" onclick="showSection('stats')">
+                            📊 Статистика
+                        </a>
+                        <a href="#" class="nav-item" onclick="showSection('hero')">
+                            🎯 Главный блок
+                        </a>
+                        <a href="#" class="nav-item" onclick="showSection('about')">
+                            ℹ️ О системе
+                        </a>
+                        <a href="#" class="nav-item" onclick="showSection('expert')">
+                            👤 Об эксперте
+                        </a>
+                        <a href="#" class="nav-item" onclick="showSection('reviews')">
+                            ⭐ Отзывы
+                        </a>
+                        <a href="#" class="nav-item" onclick="showSection('forms')">
+                            📝 Заявки
+                        </a>
+                        <a href="#" class="nav-item" onclick="showSection('settings')">
+                            ⚙️ Настройки
+                        </a>
+                    </nav>
+                </aside>
+
+                <!-- Main Content -->
+                <main class="main-content">
+                    <!-- Stats Section -->
+                    <section id="statsSection" class="content-section">
+                        <h2>Статистика</h2>
+                        <div class="stats-grid">
+                            <div class="stat-card">
+                                <div class="stat-icon">📝</div>
+                                <div class="stat-number" id="totalForms">0</div>
+                                <div class="stat-label">Всего заявок</div>
+                            </div>
+                            <div class="stat-card">
+                                <div class="stat-icon">🆕</div>
+                                <div class="stat-number" id="newForms">0</div>
+                                <div class="stat-label">Новых заявок</div>
+                            </div>
+                            <div class="stat-card">
+                                <div class="stat-icon">⭐</div>
+                                <div class="stat-number" id="totalReviews">0</div>
+                                <div class="stat-label">Всего отзывов</div>
+                            </div>
+                            <div class="stat-card">
+                                <div class="stat-icon">✅</div>
+                                <div class="stat-number" id="publishedReviews">0</div>
+                                <div class="stat-label">Опубликовано</div>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- Hero Section -->
+                    <section id="heroSection" class="content-section" style="display: none;">
+                        <h2>Главный блок (Hero)</h2>
+                        <form id="heroForm" class="edit-form">
+                            <div class="form-group">
+                                <label>Метка (label)</label>
+                                <input type="text" id="heroLabel" placeholder="Система естественного омоложения">
+                            </div>
+                            <div class="form-group">
+                                <label>Заголовок</label>
+                                <input type="text" id="heroTitle" placeholder="Долголетие —">
+                            </div>
+                            <div class="form-group">
+                                <label>Акцент заголовка</label>
+                                <input type="text" id="heroTitleAccent" placeholder="Это Профилактика Старения">
+                            </div>
+                            <div class="form-group">
+                                <label>Подзаголовок</label>
+                                <textarea id="heroSubtitle" rows="4"></textarea>
+                            </div>
+                            <div class="form-group">
+                                <label>Изображение</label>
+                                <input type="file" id="heroImage" accept="image/*" onchange="uploadImage(this, 'hero')">
+                                <input type="hidden" id="heroImageUrl">
+                                <img id="heroImagePreview" class="image-preview" style="display: none;">
+                            </div>
+                            <button type="submit" class="btn-primary">Сохранить</button>
+                        </form>
+                    </section>
+
+                    <!-- About Section -->
+                    <section id="aboutSection" class="content-section" style="display: none;">
+                        <h2>О системе</h2>
+                        <form id="aboutForm" class="edit-form">
+                            <div class="form-group">
+                                <label>Заголовок</label>
+                                <input type="text" id="aboutTitle">
+                            </div>
+                            <div class="form-group">
+                                <label>Подзаголовок</label>
+                                <input type="text" id="aboutSubtitle">
+                            </div>
+                            <div id="aboutCards"></div>
+                            <button type="submit" class="btn-primary">Сохранить</button>
+                        </form>
+                    </section>
+
+                    <!-- Expert Section -->
+                    <section id="expertSection" class="content-section" style="display: none;">
+                        <h2>Об эксперте</h2>
+                        <form id="expertForm" class="edit-form">
+                            <div class="form-group">
+                                <label>Фото эксперта</label>
+                                <input type="file" id="expertImage" accept="image/*" onchange="uploadImage(this, 'expert')">
+                                <input type="hidden" id="expertImageUrl">
+                                <img id="expertImagePreview" class="image-preview" style="display: none;">
+                            </div>
+                            <div class="form-group">
+                                <label>Цитата</label>
+                                <textarea id="expertQuote" rows="3"></textarea>
+                            </div>
+                            <div class="form-group">
+                                <label>Имя</label>
+                                <input type="text" id="expertName">
+                            </div>
+                            <button type="submit" class="btn-primary">Сохранить</button>
+                        </form>
+                    </section>
+
+                    <!-- Reviews Section -->
+                    <section id="reviewsSection" class="content-section" style="display: none;">
+                        <div class="section-header">
+                            <h2>Отзывы</h2>
+                            <button onclick="showAddReviewModal()" class="btn-primary">+ Добавить отзыв</button>
+                        </div>
+                        <div id="reviewsList" class="reviews-list"></div>
+                    </section>
+
+                    <!-- Forms Section -->
+                    <section id="formsSection" class="content-section" style="display: none;">
+                        <h2>Заявки с формы</h2>
+                        <div id="formsList" class="forms-list"></div>
+                    </section>
+
+                    <!-- Settings Section -->
+                    <section id="settingsSection" class="content-section" style="display: none;">
+                        <h2>Настройки сайта</h2>
+                        <form id="settingsForm" class="edit-form">
+                            <div class="form-group">
+                                <label>Название сайта</label>
+                                <input type="text" id="siteName">
+                            </div>
+                            <div class="form-group">
+                                <label>Телефон</label>
+                                <input type="tel" id="phone">
+                            </div>
+                            <div class="form-group">
+                                <label>Email</label>
+                                <input type="email" id="email">
+                            </div>
+                            <div class="form-group">
+                                <label>Время работы</label>
+                                <input type="text" id="workTime">
+                            </div>
+                            <button type="submit" class="btn-primary">Сохранить</button>
+                        </form>
+                    </section>
+                </main>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal for adding/editing review -->
+    <div id="reviewModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeReviewModal()">&times;</span>
+            <h2 id="reviewModalTitle">Добавить отзыв</h2>
+            <form id="reviewForm">
+                <input type="hidden" id="reviewId">
+                <div class="form-group">
+                    <label>Текст отзыва</label>
+                    <textarea id="reviewText" rows="5" required></textarea>
+                </div>
+                <div class="form-group">
+                    <label>Имя автора</label>
+                    <input type="text" id="reviewAuthor" required>
+                </div>
+                <div class="form-group">
+                    <label>Возраст/Профессия</label>
+                    <input type="text" id="reviewAge">
+                </div>
+                <div class="form-group">
+                    <label>Рейтинг</label>
+                    <input type="number" id="reviewRating" min="1" max="5" value="5">
+                </div>
+                <div class="form-group">
+                    <label>
+                        <input type="checkbox" id="reviewPublished">
+                        Опубликован
+                    </label>
+                </div>
+                <button type="submit" class="btn-primary">Сохранить</button>
+            </form>
+        </div>
+    </div>
+
+    <script src="admin-script.js"></script>
+</body>
+</html>

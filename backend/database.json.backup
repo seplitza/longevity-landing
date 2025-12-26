@@ -1,0 +1,66 @@
+{
+  "users": [
+    {
+      "id": 1,
+      "username": "admin",
+      "password": "$2a$10$.wPXUCCMlOhDx2oC99NKou2jlsY90i09rW9fumAUKTe3S1dGa9JRG",
+      "createdAt": "2025-12-13T00:24:42.318Z"
+    }
+  ],
+  "content": {
+    "hero": {
+      "title": "Омоложение на клеточном уровне",
+      "subtitle": "Система Сеплица - научный подход к долголетию",
+      "image": "/uploads/hero/1765633758102-385677252.jpg",
+      "cta": "Начать трансформацию",
+      "label": "",
+      "titleAccent": ""
+    },
+    "about": {
+      "title": "4 ключевых направления системы Сеплица",
+      "steps": [
+        {
+          "number": "01",
+          "title": "Уход за телом",
+          "description": "Комплексная программа внешнего омоложения"
+        },
+        {
+          "number": "02",
+          "title": "Работа с лицом и шеей",
+          "description": "Специальные техники для молодости кожи"
+        },
+        {
+          "number": "03",
+          "title": "Клеточное здоровье",
+          "description": "Научный подход к регенерации клеток"
+        },
+        {
+          "number": "04",
+          "title": "Микробиом",
+          "description": "Баланс и здоровье изнутри"
+        }
+      ]
+    },
+    "expert": {
+      "name": "Алексей Пинаев",
+      "role": "Создатель системы Сеплица",
+      "image": "/assets/expert.jpg",
+      "quote": "Омоложение - это не мечта, а научно обоснованный процесс",
+      "bio": "Более 15 лет исследований в области клеточного омоложения и долголетия"
+    },
+    "settings": {
+      "phone": "+7 (XXX) XXX-XX-XX",
+      "email": "info@seplitza.ru",
+      "workingHours": "Пн-Пт: 9:00-18:00",
+      "address": "Россия"
+    }
+  },
+  "reviews": [],
+  "forms": [],
+  "stats": {
+    "totalForms": 0,
+    "newForms": 0,
+    "totalReviews": 0,
+    "lastUpdated": "2025-12-13T00:24:42.318Z"
+  }
+}

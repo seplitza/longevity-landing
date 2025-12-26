@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Test Images</title>
+</head>
+<body>
+    <h1>Test Image Display</h1>
+    
+    <h2>Hero Image (from DB)</h2>
+    <img src="http://37.252.20.170:3000/uploads/hero/1765617985170-783275720.jpg" style="max-width: 500px;">
+    
+    <h2>Direct URL Test</h2>
+    <a href="http://37.252.20.170:3000/uploads/hero/1765617985170-783275720.jpg" target="_blank">Open image</a>
+    
+    <h2>API Content</h2>
+    <div id="api-data"></div>
+    
+    <script>
+        fetch('http://37.252.20.170:3000/api/content')
+            .then(r => r.json())
+            .then(data => {
+                document.getElementById('api-data').innerHTML = '<pre>' + JSON.stringify(data, null, 2) + '</pre>';
+            });
+    </script>
+</body>
+</html>
