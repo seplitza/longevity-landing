@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Админ-панель - Longevity</title>
+    <link rel="stylesheet" href="../styles/main.css">
+    <link rel="stylesheet" href="admin.css">
+</head>
+<body>
+    <header>
+        <nav class="navbar">
+            <div class="container">
+                <div class="logo">
+                    <h1>Longevity - Админка</h1>
+                </div>
+                <ul class="nav-menu">
+                    <li><a href="../index.html">На главную</a></li>
+                    <li><a href="#dashboard">Dashboard</a></li>
+                    <li><a href="#content">Контент</a></li>
+                    <li><a href="#users">Пользователи</a></li>
+                    <li><a href="#settings">Настройки</a></li>
+                </ul>
+            </div>
+        </nav>
+    </header>
+
+    <main class="admin-main">
+        <div class="container">
+            <section id="dashboard" class="admin-section">
+                <h2>Dashboard</h2>
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <h3>Посещений</h3>
+                        <p class="stat-number">1,234</p>
+                    </div>
+                    <div class="stat-card">
+                        <h3>Пользователей</h3>
+                        <p class="stat-number">567</p>
+                    </div>
+                    <div class="stat-card">
+                        <h3>Заявок</h3>
+                        <p class="stat-number">89</p>
+                    </div>
+                </div>
+            </section>
+
+            <section id="content" class="admin-section">
+                <h2>Управление контентом</h2>
+                <div class="content-management">
+                    <button class="btn-primary">Добавить страницу</button>
+                    <button class="btn-primary">Редактировать главную</button>
+                    <button class="btn-primary">Управление услугами</button>
+                </div>
+            </section>
+
+            <section id="users" class="admin-section">
+                <h2>Пользователи</h2>
+                <table class="admin-table">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Имя</th>
+                            <th>Email</th>
+                            <th>Роль</th>
+                            <th>Действия</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>1</td>
+                            <td>Администратор</td>
+                            <td>admin@example.com</td>
+                            <td>Admin</td>
+                            <td><button class="btn-small">Редактировать</button></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </section>
+
+            <section id="settings" class="admin-section">
+                <h2>Настройки</h2>
+                <form class="settings-form">
+                    <div class="form-group">
+                        <label>Название сайта</label>
+                        <input type="text" value="Longevity">
+                    </div>
+                    <div class="form-group">
+                        <label>Email для уведомлений</label>
+                        <input type="email" value="admin@example.com">
+                    </div>
+                    <div class="form-group">
+                        <label>Режим обслуживания</label>
+                        <input type="checkbox">
+                    </div>
+                    <button type="submit" class="btn-primary">Сохранить настройки</button>
+                </form>
+            </section>
+        </div>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2024 Longevity Admin Panel. Все права защищены.</p>
+        </div>
+    </footer>
+
+    <script src="admin.js"></script>
+</body>
+</html>
