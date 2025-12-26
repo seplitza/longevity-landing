@@ -62,7 +62,8 @@ header {
     transition: color 0.3s ease;
 }
 
-.nav-menu a:hover {
+.nav-menu a:hover,
+.nav-menu a.active {
     color: var(--secondary-color);
 }
 
